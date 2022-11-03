@@ -1,0 +1,159 @@
+DROP TABLE Estudiantes CASCADE CONSTRAINTS;
+DROP TABLE Profesores CASCADE CONSTRAINTS;
+DROP TABLE Cursos CASCADE CONSTRAINTS;
+DROP TABLE Matriculas CASCADE CONSTRAINTS;
+DROP TABLE FACTURAS CASCADE CONSTRAINTS;
+DROP TABLE PAGOS CASCADE CONSTRAINTS;
+
+CREATE TABLE Estudiantes(
+	codigo		VARCHAR2(9),
+	nombre		VARCHAR2(30),
+	programa		VARCHAR2(25),
+	promedio_acumulado	NUMBER(2,1),
+	edad			NUMBER(3,0),
+	PRIMARY KEY(codigo)
+);
+
+CREATE TABLE Profesores(
+	cedula			VARCHAR2(9),
+	nombre		VARCHAR2(30),
+	departamento		NUMBER(2,0),
+	PRIMARY KEY(cedula)
+);
+
+CREATE TABLE Cursos(
+	nombre		VARCHAR2(40),
+	horario	VARCHAR2(20),
+	salon		VARCHAR2(10),
+	profesor			VARCHAR2(9),
+	PRIMARY KEY(nombre),
+	FOREIGN KEY(profesor) REFERENCES Profesores
+);
+
+CREATE TABLE Matriculas(
+	estudiante		VARCHAR2(9),
+	curso		VARCHAR2(40),
+	PRIMARY KEY(estudiante,curso),
+	FOREIGN KEY(estudiante) REFERENCES Estudiantes,
+	FOREIGN KEY(curso) REFERENCES Cursos(nombre)
+);
+
+CREATE TABLE FACTURAS (
+  estudiante VARCHAR2(9) NOT NULL,
+  numero VARCHAR2(5) NOT NULL,
+  fecha_expedicion DATE NOT NULL,
+  fecha_limite_pago DATE NOT NULL,
+  valor_concepto NUMBER NOT NULL,
+  impuesto_procultura NUMBER NOT NULL,
+  valor_total NUMBER NOT NULL,
+  anulada CHAR NOT NULL,
+  fecha_anulacion DATE NULL,
+  PRIMARY KEY (numero),
+  FOREIGN KEY (estudiante) REFERENCES ESTUDIANTES
+);
+
+CREATE TABLE PAGOS (
+  factura VARCHAR2(5) NOT NULL,
+  consecutivo NUMBER NOT NULL,
+  fecha DATE NOT NULL,
+  valor NUMBER NOT NULL,
+  medio_pago VARCHAR2(10) NOT NULL,
+  PRIMARY KEY (factura, consecutivo),
+  FOREIGN KEY (factura) REFERENCES FACTURAS
+);
+
+INSERT INTO Estudiantes VALUES ('051135593','Sofia Loren','Ciencia Politica',4.2,21);
+INSERT INTO Estudiantes VALUES ('060839453','Julio Iglesias','Diseno Industrial',4.2,22);
+INSERT INTO Estudiantes VALUES ('099354543','Andres Cepeda','Derecho',3.7,20);
+INSERT INTO Estudiantes VALUES ('112348546','Julio Sabala','Ingenieria de Sistemas',4.0,19);
+INSERT INTO Estudiantes VALUES ('115987938','Fernando Alonso','Ingenieria de Sistemas',3.7,20);
+INSERT INTO Estudiantes VALUES ('132977562','Celia Cruz','Antropologia',4.2,20);
+INSERT INTO Estudiantes VALUES ('269734834','Placido Domingo','Psicologia',4.0,18);
+INSERT INTO Estudiantes VALUES ('280158572','Angela Carrasco','Medicina',3.5,18);
+INSERT INTO Estudiantes VALUES ('301221823','Richard Marx','Psicologia',3.7,20);
+INSERT INTO Estudiantes VALUES ('318548912','Luis Angel','Economia',3.5,18);
+INSERT INTO Estudiantes VALUES ('320874981','David Copperfield','Ingenieria Telematica',3.5,17);
+INSERT INTO Estudiantes VALUES ('322654189','Camilo Torres','Ingenieria de Sistemas',4.0,17);
+INSERT INTO Estudiantes VALUES ('348121549','Arcipreste de Hita','Ingenieria de Sistemas',3.7,18);
+INSERT INTO Estudiantes VALUES ('351565322','William Wallace','Contaduria y Finanzas',3.7,19);
+INSERT INTO Estudiantes VALUES ('451519864','Jaime Lannister','Economia',3.5,18);
+INSERT INTO Estudiantes VALUES ('455798411','Juan Sin Tierra','Ingenieria Telematica',3.5,17);
+INSERT INTO Estudiantes VALUES ('462156489','Alejandro Magno','Ingenieria Industrial',4.0,19);
+INSERT INTO Estudiantes VALUES ('550156548','Charles Darwin','Administracion',4.2,21);
+INSERT INTO Estudiantes VALUES ('552455318','Fabiana Cantilo','Ingenieria de Sistemas',4.2,19);
+INSERT INTO Estudiantes VALUES ('556784565','Andres Calamaro','Ingenieria Industrial',4.2,21);
+INSERT INTO Estudiantes VALUES ('567354612','Steven Tyler','Ingenieria de Sistemas',3.5,18);
+INSERT INTO Estudiantes VALUES ('573284895','Cristiano Ronaldo','Medicina',4.0,19);
+INSERT INTO Estudiantes VALUES ('574489456','Juan Pablo Montoya','Economia',3.7,20);
+INSERT INTO Estudiantes VALUES ('578875478','Antonio Ricaurte','Medicina',4.2,21);
+
+
+INSERT INTO Profesores VALUES ('142519864','Camilo Valderrama',20);
+INSERT INTO Profesores VALUES ('242518965','Luis Felipe Cardona',68);
+INSERT INTO Profesores VALUES ('141582651','Hugo Arboleda',20);
+INSERT INTO Profesores VALUES ('011564812','Gonzalo Llano',68);
+INSERT INTO Profesores VALUES ('254099823','Angela Villota',68);
+INSERT INTO Profesores VALUES ('356187925','Gabriel Tamura',12);
+INSERT INTO Profesores VALUES ('489456522','Sandra Cespedes',20);
+INSERT INTO Profesores VALUES ('287321212','Norha Villegas',12);
+INSERT INTO Profesores VALUES ('248965255','Alvaro Pachon',12);
+INSERT INTO Profesores VALUES ('159542516','Luis Eduardo Munera',33);
+INSERT INTO Profesores VALUES ('090873519','Carlos Arce',11);
+INSERT INTO Profesores VALUES ('486512566','Juan Carlos Mu?oz',20);
+INSERT INTO Profesores VALUES ('619023588','Andres Navarro',11);
+INSERT INTO Profesores VALUES ('489221823','Alfonso Bustamante',33);
+INSERT INTO Profesores VALUES ('548977562','Gonzalo Ulloa',20);
+
+INSERT INTO Cursos VALUES ('Algoritmos y Estructuras de Datos','LMiV 10:00-12:00','108D','489456522');
+INSERT INTO Cursos VALUES ('Bases de Datos','LMiV 18:00-20:00','304C','142519864');
+INSERT INTO Cursos VALUES ('Sistemas Operativos','MaJ 11:00-13:00','203C','489456522');
+INSERT INTO Cursos VALUES ('Arte contemporaneo','LMiV 14:00-17:00','108D','248965255');
+INSERT INTO Cursos VALUES ('Contabilidad y Costos','MaJ 14:00-16:00','101A','011564812');
+INSERT INTO Cursos VALUES ('Introduccion a la Ingenieria y las TIC','MaJ 11:30-13:00','504L','011564812');
+INSERT INTO Cursos VALUES ('Ingles I','LMiV 14:00-17:00','204C','248965255');
+INSERT INTO Cursos VALUES ('Ingles II','MaJ 14:00-17:00','203C','619023588');
+INSERT INTO Cursos VALUES ('Literatura I','Ma 18:00-21:00','504L','159542516');
+INSERT INTO Cursos VALUES ('Sociedad del siglo XIX','L 9:00-12:00','101A','489221823');
+INSERT INTO Cursos VALUES ('Calculo varias variables','MaJ 14:00-17:00','504L','090873519');
+INSERT INTO Cursos VALUES ('Fundamentos de Derecho Constitucional','V 7:00-9:00','108D','090873519');
+INSERT INTO Cursos VALUES ('Principios de Economia','LMiV 11:00-13:00','203C','489221823');
+INSERT INTO Cursos VALUES ('Quimica Organica','MaJ 14:00-16:00','204C','489221823');
+INSERT INTO Cursos VALUES ('Fundamentos de Mercadeo','LMi 7:00-9:00','304C','489221823');
+INSERT INTO Cursos VALUES ('Probabilidad y Estadistica','L 16:00-18:00','504L','489221823');
+INSERT INTO Cursos VALUES ('Ingenieria de Procesos','LMiV 9:00-11:00','304C','011564812');
+INSERT INTO Cursos VALUES ('Organizaciones','MaJ 14:00-16:00','108D','356187925');
+INSERT INTO Cursos VALUES ('Redes de Comunicaciones','LMi 9:00-11:00','203C','141582651');
+INSERT INTO Cursos VALUES ('Logica Digital','MaJ 14:00-16:00','504L','254099823');
+INSERT INTO Cursos VALUES ('Algebra y Funciones','MaJ 7:00-10:00','108D','489221823');
+
+INSERT INTO Matriculas VALUES ('112348546','Bases de Datos');
+INSERT INTO Matriculas VALUES ('115987938','Bases de Datos');
+INSERT INTO Matriculas VALUES ('348121549','Bases de Datos');
+INSERT INTO Matriculas VALUES ('322654189','Bases de Datos');
+INSERT INTO Matriculas VALUES ('552455318','Bases de Datos');
+INSERT INTO Matriculas VALUES ('455798411','Sistemas Operativos');
+INSERT INTO Matriculas VALUES ('552455318','Sistemas Operativos');
+INSERT INTO Matriculas VALUES ('567354612','Sistemas Operativos');
+INSERT INTO Matriculas VALUES ('112348546','Sistemas Operativos');
+INSERT INTO Matriculas VALUES ('115987938','Sistemas Operativos');
+INSERT INTO Matriculas VALUES ('322654189','Sistemas Operativos');
+INSERT INTO Matriculas VALUES ('567354612','Algoritmos y Estructuras de Datos');
+INSERT INTO Matriculas VALUES ('552455318','Redes de Comunicaciones');
+INSERT INTO Matriculas VALUES ('455798411','Logica Digital');
+INSERT INTO Matriculas VALUES ('301221823','Sociedad del siglo XIX');
+INSERT INTO Matriculas VALUES ('301221823','Literatura I');
+INSERT INTO Matriculas VALUES ('301221823','Ingles II');
+INSERT INTO Matriculas VALUES ('556784565','Introduccion a la Ingenieria y las TIC');
+INSERT INTO Matriculas VALUES ('099354543','Fundamentos de Derecho Constitucional');
+INSERT INTO Matriculas VALUES ('574489456','Principios de Economia');
+
+INSERT INTO FACTURAS VALUES ('132977562', '00001', TO_DATE('2014/05/03', 'yyyy/mm/dd'), TO_DATE('2014/06/03', 'yyyy/mm/dd'), 7400000, 115000, 7515000, 'N', null);
+INSERT INTO FACTURAS VALUES ('060839453', '00002', TO_DATE('2014/05/03', 'yyyy/mm/dd'), TO_DATE('2014/06/03', 'yyyy/mm/dd'), 7400000, 115000, 7515000, 'N', null);
+INSERT INTO FACTURAS VALUES ('301221823', '00003', TO_DATE('2014/05/03', 'yyyy/mm/dd'), TO_DATE('2014/06/03', 'yyyy/mm/dd'), 7400000, 115000, 7515000, 'N', null);
+INSERT INTO FACTURAS VALUES ('318548912', '00004', TO_DATE('2014/05/03', 'yyyy/mm/dd'), TO_DATE('2014/06/03', 'yyyy/mm/dd'), 7400000, 115000, 7515000, 'N', null);
+INSERT INTO FACTURAS VALUES ('322654189', '00005', TO_DATE('2014/05/03', 'yyyy/mm/dd'), TO_DATE('2014/06/03', 'yyyy/mm/dd'), 6400000, 105000, 6505000, 'N', null);
+
+INSERT INTO PAGOS VALUES ('00005', 1, TO_DATE('2014/06/03', 'yyyy/mm/dd'), 6000000, 'EFECTIVO');
+INSERT INTO PAGOS VALUES ('00005', 2, TO_DATE('2014/06/03', 'yyyy/mm/dd'), 505000, 'T_CREDITO');
+
+COMMIT WORK;
